@@ -1,13 +1,16 @@
----
 title: "DeGroot_GithubConsumerComplaints"
 author: "Lia DeGroot"
-date: "4/19/2022"
+date: "5/6/2022"
 output: 
   flexdashboard::flex_dashboard:
   verticla_layout: scroll
+
 ---
 
 ```{r setup, include=FALSE}
+
+`complaints (1)` <- readRDS("~/Desktop/github_lia/DEGROOT_GITHUBHOMEWOKR/complaints (1).rds")
+
 library(tidyverse)
 library(janitor)
 library(readxl)
@@ -16,10 +19,10 @@ library(lubridate)
 library(ggthemes)
 library(esquisse)
 library(dplyr)
+library(ggplot2)
 library(flexdashboard)
 ```
 ```{r}
-
 ```
 
 
@@ -32,40 +35,40 @@ complaints_bydate <- `complaints (1)` %>%
 
 -------------------------------------
     
-### Chart 1
+### Chart 1 
     
 ```{r}
 
-complaints_bydate %>% 
 ggplot(complaints_bydate, aes(x = date_received, y = n)) + 
   geom_line()
 ```
-   
-Column {data-width=1000}
+ 
 -------------------------------------
    
-### Chart 2
+### Chart 2 
+
 
 ```{r}
 
+complaints_byproduct <- `complaints (1)` %>% 
+  count(product)
 ggplot(complaints_byproduct, aes(x = product, y = n)) +
-  geom_col()
+  geom_col() +
+  coord_flip() 
+ 
 
 ```   
- 
-### Chart 3
+
+-------------------------------------
+
+### Chart 3 
     
 ```{r}
+complaints_bystate <- `complaints (1)` %>% 
+  count(state)
 
+ggplot(complaints_bystate, aes(x = state, y = n)) +
+  geom_col() +
+  coord_flip() 
+ 
 ```
-
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
